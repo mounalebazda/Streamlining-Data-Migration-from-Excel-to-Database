@@ -1,0 +1,258 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    
+<h:head>
+    <title>Table Data</title>
+    <style>
+        body {
+            background-color: #FFFFFF;
+            font-family: Arial, sans-serif;
+            color: #000000;
+            margin: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            border-spacing: 0;
+            background-color: #0077B6;
+            border-radius: 10px;
+            margin-top: 30px;
+        }
+
+        .title {
+            font-size: 30px;
+            color: #0077B6;
+            margin-bottom: 40px;
+            margin-top: 35px;
+            text-align: center;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 2px solid #FFFFFF;
+            color: #FFFFFF;
+            border-right: 2px solid #FFFFFF;
+        }
+
+        th:last-child, td:last-child {
+            border-right: none;
+        }
+
+        th {
+            background-color: #F2730B;
+        }
+
+        /* CSS for the form */
+        h:form {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            margin-top: 10px;
+        }
+
+        .import-button {
+            background-color: #0077B6;
+            color: #FFFFFF;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 5px;
+            margin-right: 10px;
+            font-size: 15px;
+        }
+
+        .import-button:hover {
+            background-color: #005b8a;
+            
+        }
+
+        .file-input-container {
+            position: relative;
+            display: inline-block;
+            cursor: pointer;
+        }
+
+        /* Style for the file input label */
+        .file-input-label {
+            background-color: #F2730B;
+            color: #FFFFFF;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 5px;
+            margin-right: 10px;
+            font-size: 15px;
+        }
+
+        .file-input-label:hover {
+            background-color: #D95E00;
+        }
+
+        .file-input-container input[type="file"] {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            cursor: pointer;
+        }
+
+        .orange-text {
+            color: #F2730B;
+        }
+        
+    .modal {
+        display: none;
+        position: fixed;
+        z-index: 1;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgba(0, 0, 0, 0.7);
+    }
+
+    .modal-content {
+        background-color: #fff;
+        margin: 10% auto;
+        padding: 20px;
+        border-radius: 5px;
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+        width: 50%;
+        text-align: center;
+    }
+
+    .close {
+        color: #aaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+        cursor: pointer;
+    }
+
+    .close:hover {
+        color: black;
+    }
+    
+    /* Styling for the log panel */
+.log-panel {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 300px; /* Adjust the width as needed */
+    background-color: rgba(255, 255, 255, 0.8); /* Adjust the transparency as needed */
+    padding: 10px;
+    border-top-right-radius: 5px;
+    border-top-left-radius: 5px;
+    box-shadow: 0px -2px 5px rgba(0, 0, 0, 0.2); /* Shadow to separate from content */
+    overflow-y: auto;
+    max-height: 200px; /* Adjust the maximum height as needed */
+    z-index: 1000; /* Ensure it's above other content */
+}
+
+.log-panel h2 {
+    margin-top: 0;
+}
+
+.log-panel ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.log-panel li {
+    margin-bottom: 5px;
+    padding: 0;
+}
+
+.log-panel button {
+    margin-top: 10px;
+}
+
+
+
+    </style>
+</h:head>
+<h:body>
+    <h:form id="mainForm" enctype="multipart/form-data">
+        <h:commandButton value="Back" action="#{connectionBean.BacktodbTablist}" class="import-button"/>
+
+        <div id="mainContent">
+            <h1 class="title">Table "<span class="orange-text">#{connectionBean.selectedTabName}</span>" Data</h1>
+
+            <div class="file-input-container">
+                <label class="file-input-label" for="fileInput">Choose File</label>
+                <h:inputFile id="fileInput" value="#{connectionBean.file}" class="file-input" onchange="displayFileName(this)" />
+            </div>
+
+            <h:commandButton value="Import Excel file" action="#{connectionBean.openExcel}" class="import-button"/>
+            <h:commandButton value="Download Report File" action="#{connectionBean.downloadErrorReport()}" class="import-button" rendered="#{connectionBean.error}" />
+
+
+                <div id="logPanel" class="log-panel">
+                    <h2>Log Panel</h2>
+                    <ul>
+                        <ui:repeat value="#{connectionBean.errMessages}" var="errMsg">
+                            <li>#{errMsg}</li>
+                        </ui:repeat>
+                    </ul>
+                    <h:commandButton value="Clear Log" action="#{connectionBean.clearLog()}" >
+                    </h:commandButton>
+                </div>
+
+        </div>
+    </h:form>
+
+    <!-- Display columnNames in one row above the tableDataList -->
+    <div class="frame">
+        <table>
+            <thead>
+                <tr>
+                    <ui:repeat value="#{connectionBean.columnNames}" var="columnName">
+                        <th>#{columnName}</th>
+                    </ui:repeat>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Display tableDataList in rows -->
+                <ui:repeat value="#{connectionBean.tableDataList}" var="row">
+                    <tr>
+                        <ui:repeat value="#{row}" var="columnValue">
+                            <td>#{columnValue}</td>
+                        </ui:repeat>
+                    </tr>
+                </ui:repeat>
+            </tbody>
+        </table>
+    </div>
+
+</h:body>
+    
+    <!-- Your JavaScript code here -->
+    <script>
+        
+        
+        function displayFileName(input) {
+    if (input.files.length > 0) {
+        const fileName = input.files[0].name;
+        document.querySelector('.file-input-label').textContent = fileName;
+
+    } else {
+        // Reset label if no file is selected
+        document.querySelector('.file-input-label').textContent = 'Choose File';
+    }
+}
+    
+
+     
+ </script>
+</html>

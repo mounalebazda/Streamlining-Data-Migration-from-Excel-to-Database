@@ -1,0 +1,154 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<h:head>
+    <title>Data Bases List</title>
+    <style>
+        body {
+            background-color: #f5f5f5;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            font-size: 30px;
+            color: white;
+            margin-left: 20px;
+            margin-bottom: 10px;
+        }
+
+        .frame {
+            border: 2px solid #F2730B;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            margin-left: 10px;
+            margin-right: 10px;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            background-color: #ffffff;
+            margin-bottom: 10px;
+            padding: 0;
+        }
+
+        .database-button {
+            background-color: #0077B6;
+            color: #ffffff;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+            display: block;
+            width: 100%;
+            text-align: left;
+            text-decoration: none;
+            font-weight: bold;
+            border-radius: 5px;
+            transition: background-color 0.2s ease;
+        }
+
+        .database-button:hover {
+            background-color: #005b8a;
+        }
+
+        .title {
+            font-size: 30px;
+            color: #0077B6;
+            margin-bottom: 30px;
+            margin-top: 35px;
+            text-align: center;
+        }
+
+        .header-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            padding: 20px;
+            background-color: #0077B6;
+            color: #ffffff;
+            border-radius: 5px;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+            margin-left: 10px;
+            margin-right: 10px;
+            margin-top: 10px;
+        }
+
+        /* Styles for the search container */
+        .search-container {
+            display: flex;
+            align-items: center;
+        }
+
+        /* Style for the search input */
+        .search-input {
+            flex: 1;
+            padding: 10px;
+            border: 2px solid #F2730B;
+            border-radius: 15px;
+            outline: none;
+            font-size: 16px;
+        }
+
+        /* Style for the search button */
+        .search-button {
+            background-color: #F2730B;
+            color: #ffffff;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            font-weight: bold;
+            margin-left: 10px;
+            outline: none;
+        }
+
+        .search-button:hover {
+            background-color: #D95E00;
+        }
+
+        .orange-text {
+            color: #F2730B;
+        }
+    </style>
+</h:head>
+<h:body>
+    <h1 class="title">Database "<span class="orange-text">#{connectionBean.selectedDatabaseName}</span>"</h1>
+    <div class="header-container">
+        <h:form>
+            <h:commandButton value="Back" action="#{connectionBean.Backtodblist}" class="import-button"/>
+        </h:form>
+
+        <h1>Tables List</h1>
+        
+        <div class="search-container">
+            <h:form>
+                <h:inputText id="searchInput" value="#{connectionBean.searchKeyword}" styleClass="search-input" />
+                <h:commandButton value="Search" action="#{connectionBean.performSearchTab()}" styleClass="search-button" />
+            </h:form>
+        </div>
+    </div>
+    <div class="frame">
+        <ul>
+            <ui:repeat value="#{connectionBean.filteredTablesNames}" var="item">
+                <li>
+                    <h:form>
+                        <h:commandButton value="#{item}" action="#{connectionBean.conTable(item)}" styleClass="database-button" />
+                    </h:form>
+                </li>
+            </ui:repeat>
+        </ul>
+    </div>
+</h:body>
+</html>

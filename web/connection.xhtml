@@ -1,0 +1,115 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+<head>
+    <title>My app</title>
+    <style>
+        /* Body styles */
+        body {
+            background-color: #0077B6;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        /* Logo styles */
+        .logo {
+            width: 140px;
+            height: auto;
+        }
+
+        /* Title styles */
+        h1 {
+            color: #FFA500;
+            font-size: 28px;
+            margin-bottom: 5px;
+        }
+
+        .form-container {
+            background-color: #FFF;
+            margin-top: 40px;
+            padding: 10px 20px 1px 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+            width: 450px;
+            text-align: center;
+        }
+
+        .label {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 5px;
+            margin-left: 12.5px;
+            color: #0077B6;
+            text-align: left;
+        }
+
+        .input {
+            width: 90%;
+            height: 20px;
+            padding: 10px;
+            margin: 3px auto;
+            border: 1px solid #0077B6;
+            border-radius: 5px;
+            display: block;
+            outline: none;
+        }
+
+        .connect-button {
+            background-color: #FFB01F;
+            color: white;
+            padding: 10px 25px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            margin: 1px auto;
+        }
+
+        .connect-button:hover {
+            background-color: #FF7F00;
+        }
+
+        /* Error message styles */
+        .error-message {
+            color: red;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h:form>
+        <div class="form-container">
+            <img class="logo" src="ressources/Logo.png" alt="Sonalgaz Logo"/>
+            <h1>Server Connection</h1>
+            
+            <p>
+                <label for="username" class="label">Username</label>
+                <h:inputText required="true" id="username" value="#{connectionBean.username}" class="input" requiredMessage="Username is required" />
+                <h:message for="username" styleClass="error-message" />
+            </p>
+            <p>
+                <label for="password" class="label">Password</label>
+                <h:inputSecret required="true" id="password" value="#{connectionBean.password}" class="input" requiredMessage="Password is required" />
+                <h:message for="password" styleClass="error-message" />
+            </p>
+            <p>
+                <label for="port" class="label">Port</label>
+                <h:inputText required="true" id="port" value="#{connectionBean.port}" class="input" requiredMessage="Port is required" />
+                <h:message for="port" styleClass="error-message" />
+            </p>
+
+            <!-- Connect button -->
+            <p>
+                <h:commandButton value="Connect" action="#{connectionBean.createCon()}" styleClass="connect-button" />              
+            </p>
+            <h:outputText value="#{connectionBean.errorMessage}" rendered="#{not empty connectionBean.errorMessage}" />
+        </div>
+    </h:form>
+</body>
+</html>
