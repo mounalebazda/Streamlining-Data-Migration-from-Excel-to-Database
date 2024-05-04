@@ -4,7 +4,7 @@ DataSync Web App: Streamlining Data Migration from Excel to Database
 
 Description : 
 
-DataSync is an advanced web application developed during an internship at SONELGAZ's electricity production branch in Algiers, aimed at optimizing the process of migrating data from Excel spreadsheets to structured databases. The application addresses common challenges such as data type mismatches, incorrect column order, and manual data entry errors. By automating data validation and correction prior to database integration, DataSync ensures precision and efficiency, significantly reducing error rates and improving data integrity.
+DataSync is an advanced web application developed during an internship at SONELGAZ's electricity production branch in Algiers from September 2023 to December 2023, aimed at optimizing the process of migrating data from Excel spreadsheets to structured databases. The application addresses common challenges such as data type mismatches, incorrect column order, and manual data entry errors. By automating data validation and correction prior to database integration, DataSync ensures precision and efficiency, significantly reducing error rates and improving data integrity.
 
 Technologies Used :
 
